@@ -17,17 +17,15 @@
 src/
 ├── domain/             # ドメイン層
 │   ├── model/          # エンティティと値オブジェクト
-│   ├── service/        # ドメインサービス
 │   └── repository/     # リポジトリインターフェース（ポート）
 ├── application/        # アプリケーション層
 │   └── usecase/        # ユースケース
 ├── infrastructure/     # インフラストラクチャ層
 │   ├── repository/     # リポジトリ実装（アダプター）
 │   └── database/       # データベース接続
-└── interface/          # インターフェース層
-    ├── controller/     # コントローラー
-    ├── presenter/      # プレゼンター
-    └── dto/            # データ転送オブジェクト
+├── interface/          # インターフェース層
+│   └── controller/     # コントローラー
+└── index.ts            # エントリポイント
 ```
 
 ## 主な機能
