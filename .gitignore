@@ -1,0 +1,17 @@
+# Node dependencies
+node_modules/
+
+# Build directory
+dist/
+
+# Environment files
+.env
+
+# IDEs and editors
+.history
+.idea/
+.vscode/
+package-lock.json
+
+# jest coverage
+coverage/
