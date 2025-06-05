@@ -86,7 +86,8 @@ export class CustomerController {
   async updateCustomer(req: Request, res: Response): Promise<void> {
     try {
       const id = req.params.id;
-      const input = { id, ...req.body };
+      // URL の ID が常に優先されるようにする
+      const input = { ...req.body, id };
       const result = await this.updateCustomerUseCase.execute(input);
       res.status(200).json(result);
     } catch (error) {
