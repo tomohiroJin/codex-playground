@@ -5,6 +5,7 @@ import { GetCustomerUseCase } from "./application/usecase/GetCustomerUseCase";
 import { ListCustomersUseCase } from "./application/usecase/ListCustomersUseCase";
 import { UpdateCustomerUseCase } from "./application/usecase/UpdateCustomerUseCase";
 import { DeleteCustomerUseCase } from "./application/usecase/DeleteCustomerUseCase";
+import { ExportCustomersCsvUseCase } from "./application/usecase/ExportCustomersCsvUseCase";
 import { InMemoryCustomerRepository } from "./infrastructure/repository/InMemoryCustomerRepository";
 
 // リポジトリの作成
@@ -16,6 +17,7 @@ const getCustomerUseCase = new GetCustomerUseCase(customerRepository);
 const listCustomersUseCase = new ListCustomersUseCase(customerRepository);
 const updateCustomerUseCase = new UpdateCustomerUseCase(customerRepository);
 const deleteCustomerUseCase = new DeleteCustomerUseCase(customerRepository);
+const exportCustomersCsvUseCase = new ExportCustomersCsvUseCase(customerRepository);
 
 // コントローラーの作成
 const customerController = new CustomerController(
@@ -23,7 +25,8 @@ const customerController = new CustomerController(
   getCustomerUseCase,
   listCustomersUseCase,
   updateCustomerUseCase,
-  deleteCustomerUseCase
+  deleteCustomerUseCase,
+  exportCustomersCsvUseCase
 );
 
 // Expressアプリケーションの作成
@@ -57,6 +60,9 @@ app.get("/customers/:id", (req, res) =>
   customerController.getCustomer(req, res)
 );
 app.get("/customers", (req, res) => customerController.listCustomers(req, res));
+app.get("/customers/export", (req, res) =>
+  customerController.exportCustomersCsv(req, res)
+);
 app.put("/customers/:id", (req, res) =>
   customerController.updateCustomer(req, res)
 );

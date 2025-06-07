@@ -4,6 +4,7 @@ import { DeleteCustomerUseCase } from "../../application/usecase/DeleteCustomerU
 import { GetCustomerUseCase } from "../../application/usecase/GetCustomerUseCase";
 import { ListCustomersUseCase } from "../../application/usecase/ListCustomersUseCase";
 import { UpdateCustomerUseCase } from "../../application/usecase/UpdateCustomerUseCase";
+import { ExportCustomersCsvUseCase } from "../../application/usecase/ExportCustomersCsvUseCase";
 
 /**
  * 顧客コントローラー
@@ -15,7 +16,8 @@ export class CustomerController {
     private readonly getCustomerUseCase: GetCustomerUseCase,
     private readonly listCustomersUseCase: ListCustomersUseCase,
     private readonly updateCustomerUseCase: UpdateCustomerUseCase,
-    private readonly deleteCustomerUseCase: DeleteCustomerUseCase
+    private readonly deleteCustomerUseCase: DeleteCustomerUseCase,
+    private readonly exportCustomersCsvUseCase: ExportCustomersCsvUseCase
   ) {}
 
   /**
@@ -71,6 +73,26 @@ export class CustomerController {
       }
 
       res.status(200).json(result);
+    } catch (error) {
+      res.status(400).json({
+        error:
+          error instanceof Error ? error.message : "不明なエラーが発生しました",
+      });
+    }
+  }
+
+  /**
+   * 顧客一覧をCSV形式で取得する
+   * GET /customers/export
+   * クエリパラメータ:
+   * - activeOnly: アクティブな顧客のみを取得する場合は "true"
+   */
+  async exportCustomersCsv(req: Request, res: Response): Promise<void> {
+    try {
+      const activeOnly = req.query.activeOnly === "true";
+      const csv = await this.exportCustomersCsvUseCase.execute(activeOnly);
+      res.setHeader("Content-Type", "text/csv; charset=utf-8");
+      res.status(200).send(csv);
     } catch (error) {
       res.status(400).json({
         error:
