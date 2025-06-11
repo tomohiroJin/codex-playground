@@ -34,6 +34,7 @@ src/
 - 購入履歴管理
 - 検索機能
 - データ入出力（CSV）
+- 顧客一覧の CSV 出力
 
 ## 開発方法
 
@@ -80,3 +81,24 @@ npm start
 ## データベース
 
 開発環境ではインメモリデータベースを使用しています。
+
+## CSV 出力
+
+`/customers/export` エンドポイントを利用すると、顧客一覧を CSV 形式で取得
+できます。クエリパラメータ `activeOnly` を指定すると、アクティブな顧客のみ
+を出力します。
+
+### リクエスト例
+
+```bash
+# すべての顧客を CSV で取得
+curl -L "http://localhost:3000/customers/export" -o customers.csv
+
+# アクティブな顧客のみを取得
+curl -L "http://localhost:3000/customers/export?activeOnly=true" -o customers.csv
+```
+
+### 返される内容
+
+レスポンスヘッダー `Content-Type: text/csv` が付与され、ボディに CSV データが
+含まれます。ファイル名は自由に指定できます。
