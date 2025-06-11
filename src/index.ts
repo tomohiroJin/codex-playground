@@ -56,13 +56,13 @@ app.options("*", (_req, res) => {
 app.post("/customers", (req, res) =>
   customerController.createCustomer(req, res)
 );
+app.get("/customers/export", (req, res) =>
+  customerController.exportCustomersCsv(req, res)
+);
 app.get("/customers/:id", (req, res) =>
   customerController.getCustomer(req, res)
 );
 app.get("/customers", (req, res) => customerController.listCustomers(req, res));
-app.get("/customers/export", (req, res) =>
-  customerController.exportCustomersCsv(req, res)
-);
 app.put("/customers/:id", (req, res) =>
   customerController.updateCustomer(req, res)
 );
